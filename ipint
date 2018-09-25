@@ -1,0 +1,15 @@
+#!/bin/bash
+NETS=`ip addr | grep "inet " | rev | cut -d' ' -f1 | rev` # Get all interfaces
+IPS=`ip addr | grep "inet " | cut -d' ' -f6` # Get all addresses
+IFS=$'\n' inarr=(${IPS});
+GATEWAY=`ip route | grep default | cut -d' ' -f3`
+count=0
+echo '============================================='
+echo -e "INTERFACE\t ADDRESS"
+echo '============================================='
+for net in $NETS; do
+        echo -e "$net\t\t ${inarr[count]}"
+        count=$(($count+1))
+done
+echo
+echo -e "\e[96mGateway is $GATEWAY\e[0m"
